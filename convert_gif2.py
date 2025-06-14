@@ -45,9 +45,13 @@ def check_time(time):
         return
     if len(time) != 2:
         quit('Ошибка: неверно переданы значения времени (кол-во аргументов не равно 2)')
-    if not isinstance(time[0], int) or not isinstance(time[1], int):
-        quit('Ошибка: значение времени должно быть целочисленным')
-    if time[0] < 0 or time[1] < 0:
+    if time[0] is not None and not isinstance(time[0], float):
+        quit('Ошибка: значение времени должно быть целочисленным или дробным')
+    if time[1] is not None and not isinstance(time[1], float):
+        quit('Ошибка: значение времени должно быть целочисленным или дробным')
+    if time[0] is not None and time[0] < 0:
+        quit('Ошибка: время не может быть отрицательным')
+    if time[1] is not None and time[1] < 0:
         quit('Ошибка: время не может быть отрицательным')
 
 
@@ -60,12 +64,13 @@ def main():
     new_time_git - начало и конец gif в секундах (start, end)
     """
 
-    input_path_video = 'video.mp4'
+    input_path_video = r'video.mp4'
     output_path_gif = 'output.gif'
     fps_gif = 10
     new_size_gif = None
-    new_time_gif = (2, 4)
+    new_time_gif = (2, 5)
 
+    new_time_gif = tuple(map(lambda x: float(x) if x is not None else x, new_time_gif))
     check_size(new_size_gif)
     check_time(new_time_gif)
 
